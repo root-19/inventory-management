@@ -79,12 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
             </div>
             <nav class="flex-1 px-4 py-2 space-y-2">
                 <a href="staff.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                    <i class="fas fa-user-shield mr-2"></i> Staff
+                    <i class="fas fa-user-shield mr-2"></i> Product
                 </a>
-                <a href="add-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                    <i class="fas fa-plus-square mr-2"></i> Add Products
-                </a>
-                <a href="#" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+            
+                <a href="report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-file-alt mr-2"></i> Report
                 </a>
                 <a href="#" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">

@@ -17,6 +17,17 @@ if ($result->num_rows > 0) {
     }
 }
 
+
+
+// Fetch total sales from the database
+$sql_fetch_total_sales = "SELECT SUM(total_price) AS total_sales FROM sold_products";
+$result_total_sales = $conn->query($sql_fetch_total_sales);
+$total_sales = $result_total_sales->fetch_assoc()['total_sales'];
+
+// Format the total sales amount for display
+$formatted_total_sales = number_format($total_sales, 2);
+
+// Close the database connection
 $conn->close();
 ?>
 
@@ -71,8 +82,7 @@ $conn->close();
         </nav>
     </div> 
 
-<div class="container mx-auto px-4 py-8 ml-64">
-        <h1 class="text-2xl font-bold mb-4">Product Counts</h1>
+<div class=" container mx-auto px-4 py-8 ml-64">
         <div class="grid grid-cols-2 gap-4">
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-lg font-semibold mb-2">Category Counts</h2>
@@ -85,8 +95,16 @@ $conn->close();
                     ?>
                 </ul>
             </div>
-           
         </div>
+<br>
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow p-4">
+                       <h1 class="text-3xl font-bold mb-6">Total Sales</h1>
+
+        <p class="text-lg font-bold">Total Sales Amount: <?php echo $formatted_total_sales; ?></p>
+    </div>
+            </div>
+ 
     </div>
 </body>
 </html>

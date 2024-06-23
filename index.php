@@ -1,2 +1,2 @@
 <?php
-require_once "./admin/navbar.php";
+require_once "./admin/admin.php";
