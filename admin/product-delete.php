@@ -1,4 +1,8 @@
 <?php
+
+require_once __DIR__ . '/../config/configuration.php';
+
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $productId = $_GET['id'];
     

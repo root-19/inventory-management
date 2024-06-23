@@ -34,6 +34,7 @@ function getRedirectUrl($userType) {
             return '../public/admin.php';
         case 'staff':
             return '../public/staff.php';
+        
     }
 }
 ?>

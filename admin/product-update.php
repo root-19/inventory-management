@@ -1,18 +1,18 @@
 <?php
 require_once __DIR__ . '/../config/configuration.php';
 
+// Check if the product ID is set and valid
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $productId = $_GET['id'];
-    
+
     // Fetch the product details from the database based on the product ID
     $sql = "SELECT * FROM add_product WHERE id = $productId";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $product = $result->fetch_assoc();
-        // Handle form submission for editing the product
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Update the product in the database with the new values
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_product_submit'])) {
             $name = $_POST['name'];
             $description = $_POST['description'];
             $price = $_POST['price'];
@@ -20,7 +20,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
             $updateSql = "UPDATE add_product SET name = '$name', description = '$description', price = '$price', quantity = '$quantity' WHERE id = $productId";
             if ($conn->query($updateSql) === TRUE) {
-                // Product updated successfully, redirect to the product listing page
                 header("Location: group-product.php");
                 exit();
             } else {
@@ -48,22 +47,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 <div class="max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold mb-4">Edit Product</h2>
-    <form action="" method="POST">
-        <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-            <input type="text" id="name" name="name" value="<?php echo $product['name']; ?>" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-        </div>
-        <!-- Add other input fields for description, price, quantity, etc. -->
-        <!-- Example:
-        <div class="mb-4">
-            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea id="description" name="description" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"><?php echo $product['description']; ?></textarea>
-        </div>
-        -->
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save Changes</button>
+    <form method="post">
+        <input type="hidden" name="product_id" value="<?php echo isset($product['id']) ? $product['id'] : ''; ?>">
+        <input type="text" name="name" value="<?php echo isset($product['name']) ? $product['name'] : ''; ?>">
+        <input type="text" name="description" value="<?php echo isset($product['description']) ? $product['description'] : ''; ?>">
+        <input type="text" name="price" value="<?php echo isset($product['price']) ? $product['price'] : ''; ?>">
+        <input type="number" name="quantity" value="<?php echo isset($product['quantity']) ? $product['quantity'] : ''; ?>">
+        <button type="submit" name="edit_product_submit">Save Changes</button>
     </form>
 </div>
 
 </body>
 </html>
-
