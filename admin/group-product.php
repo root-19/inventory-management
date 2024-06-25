@@ -93,7 +93,7 @@ if (isset($_GET['logout'])) {
             <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-truck mr-2"></i> Group Supply
             </a>
-                <a href="?logout=true" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </nav>

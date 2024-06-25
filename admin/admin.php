@@ -67,16 +67,19 @@ $conn->close();
             <a href="add-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-plus-square mr-2"></i> Add Products
             </a>
-            <a href="#" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+            <a href="display-report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-file-alt mr-2"></i> Report
             </a>
-            <a href="#" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+             <a href="inventory.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+          <i class="fas fa-boxes mr-2"></i> Inventory
+        </a>
+            <a href="daily-income.php" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-dollar-sign mr-2"></i> Daily Income
             </a>
             <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-truck mr-2"></i> Group Supply
             </a>
-                <a href="?logout=true" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </nav>

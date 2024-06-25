@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_report'])) {
 
             //Recipients
             $mail->setFrom('wasieacuna@gmail.com', 'hi manager');
-            $mail->addAddress('wasieacuna@gmail.com', 'Admin'); // Add a recipient
+            $mail->addAddress('annevicente006@gmail.com', 'Admin'); // Add a recipient
 
             // Content
             $mail->isHTML(true);
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_report'])) {
             <a href="sell-product.php" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-dollar-sign mr-2"></i> Daily Income
             </a>
-            <a href="?logout=true" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+            <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </nav>

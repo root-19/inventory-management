@@ -1,2 +1,2 @@
 <?php
-require_once "./admin/admin.php";
+require_once "login.php";

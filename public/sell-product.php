@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . '/../config/configuration.php';
 
-// sales data for today
+// Get today's date
 $date = date('Y-m-d');
+
+// Query to fetch today's sales data
 $sql = "SELECT p.name, s.quantity_sold, s.total_price, s.sale_date
         FROM sold_products s
         INNER JOIN add_product p ON s.product_id = p.id
@@ -12,6 +14,7 @@ $result = $conn->query($sql);
 $sales = array();
 $total_profit = 0;
 
+// Fetch and calculate sales data
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $sales[] = $row;
@@ -29,7 +32,7 @@ if ($result->num_rows > 0) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body class="bg-gray-100 ">
+<body class="bg-gray-100">
     <div class="flex">
         <!-- Sidebar -->
         <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
@@ -40,14 +43,13 @@ if ($result->num_rows > 0) {
                 <a href="staff.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-user-shield mr-2"></i> Product
                 </a>
-                <a href="#" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                <a href="report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-file-alt mr-2"></i> Report
                 </a>
                 <a href="sell-product.php" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-dollar-sign mr-2"></i> Daily Income
                 </a>
-             
-                <a href="?logout=true" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
             </nav>
@@ -89,3 +91,4 @@ if ($result->num_rows > 0) {
     </div>
 </body>
 </html>
+
