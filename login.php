@@ -31,14 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function getRedirectUrl($userType) {
     switch ($userType) {
         case 'admin':
-            return '../public/admin.php';
+            return '../admin/admin.php';
         case 'staff':
             return '../public/staff.php';
         
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,23 +49,30 @@ function getRedirectUrl($userType) {
 <body class="bg-gray-100">
 
 <div class="min-h-screen flex items-center justify-center">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form action="" method="POST">
-               <div class="mb-4">
-                <label for="username" class="block text-gray-700">username</label>
-                <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-gray-700">Email</label>
-                <input type="email" name="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700">Password</label>
-                <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
-            </div>
-            <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Login</button>
-        </form>
+    <div class="flex bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <div class="w-1/2 flex items-center justify-center border-r border-gray-300">
+            <h2 class="text-2xl font-bold  text-center">Welcome to Sari-Sari store <br> Inventory managament system</h2>
+
+
+        </div>
+        <div class="w-1/2 p-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Login your account</h2>
+            <form action="" method="POST">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Username</label>
+                    <input type="text" name="name" id="name" placeholder="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700">Email</label>
+                    <input type="email" name="email" placeholder="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700">Password</label>
+                    <input type="password" name="password" placeholder="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Login</button>
+            </form>
+        </div>
     </div>
 </div>
 

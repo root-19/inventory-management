@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                             <p class="text-gray-900 font-bold">$<?php echo $product['price']; ?></p>
                             <p class="text-gray-700">Quantity: <?php echo $product['quantity']; ?></p>
                             <div class="flex items-center">
-                                <input type="number" name="quantity_sold" min="1" max="<?php echo $product['quantity']; ?>" required class="w-16 border-gray-300 rounded-lg py-1 px-2 mr-2">
+                                <input type="number" name="quantity_sold" min="1" max="<?php echo $product['quantity']; ?>" required class="w-16 border-black rounded-lg py-1 px-2 mr-2">
                                 <span class="quantity-info">Max: <?php echo $product['quantity']; ?></span>
                             </div>
                             <button type="submit" name="sell_product" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-600">Sell</button>
