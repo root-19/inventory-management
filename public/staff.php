@@ -93,6 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                 <a href="sell-product.php" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-dollar-sign mr-2"></i> Daily Income
                 </a>
+                <a href="all-sales.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+          <i class="fas fa-boxes mr-2"></i> Inventory
+        </a>
                 <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-truck mr-2"></i> Group Supply
                 </a>
@@ -113,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                             <img src="../<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-full product-image mb-4">
                             <h2 class="text-lg font-bold"><?php echo $product['name']; ?></h2>
                             <p class="text-gray-700 mb-4"><?php echo $product['description']; ?></p>
-                            <p class="text-gray-900 font-bold">$<?php echo $product['price']; ?></p>
+                            <p class="text-gray-900 font-bold">₱<?php echo $product['price']; ?></p>
                             <p class="text-gray-700">Quantity: <?php echo $product['quantity']; ?></p>
                             <div class="flex items-center">
                                 <input type="number" name="quantity_sold" min="1" max="<?php echo $product['quantity']; ?>" required class="w-16 border-black rounded-lg py-1 px-2 mr-2">

@@ -66,19 +66,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_report'])) {
             <h2 class="text-xl font-bold">Admin</h2>
         </div>
         <nav class="flex-1 px-4 py-2 space-y-2">
-            <a href="staff.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-user-shield mr-2"></i> Product
-            </a>
-            <a href="report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-file-alt mr-2"></i> Report
-            </a>
-            <a href="sell-product.php" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-dollar-sign mr-2"></i> Daily Income
-            </a>
-            <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-sign-out-alt mr-2"></i> Logout
-            </a>
-        </nav>
+                <a href="staff.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                    <i class="fas fa-user-shield mr-2"></i> Product
+                </a>
+                <a href="report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                    <i class="fas fa-file-alt mr-2"></i> Report
+                </a>
+                <a href="sell-product.php" data-target="daily-income" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                    <i class="fas fa-dollar-sign mr-2"></i> Daily Income
+                </a>
+                <a href="all-sales.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+          <i class="fas fa-boxes mr-2"></i> Inventory
+        </a>
+                <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                    <i class="fas fa-truck mr-2"></i> Group Supply
+                </a>
+                <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </a>
+            </nav></script>
     </div>
 
     <!-- Main Content -->

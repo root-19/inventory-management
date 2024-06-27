@@ -29,9 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expiration = $conn->real_escape_string($expiration);
     $image = $image ? $conn->real_escape_string($image) : 'NULL';
 
+    // Assign original_quantity to quantity
+    $original_quantity = $quantity;
+
     // Prepare and execute SQL statement
-    $sql = "INSERT INTO add_product (name, category, image, expiration, quantity,original_quantity, description, price) 
-            VALUES ('$name', '$category', '$image', '$expiration','$original_quantity',$quantity, '$description', $price)";
+    $sql = "INSERT INTO add_product (name, category, image, expiration, quantity, original_quantity, description, price) 
+            VALUES ('$name', '$category', '$image', '$expiration', '$original_quantity', $quantity, '$description', $price)";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>";
@@ -50,10 +53,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    $conn->close();
+  
 }
 
+// Fetch categories from the database
+$category_query = "SELECT name FROM categories";
+$category_result = $conn->query($category_query);
+  $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="px-6 py-4">
         <h2 class="text-xl font-bold">admin</h2>
       </div>
-      <nav class="flex-1 px-4 py-2 space-y-2">
+        <nav class="flex-1 px-4 py-2 space-y-2">
         <a href="admin.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-user-shield mr-2"></i> Admin
         </a>
@@ -105,6 +113,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-truck mr-2"></i> Group Supply
         </a>
+        <a href="add-category.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+  <i class="fas fa-tag mr-2"></i> Category
+</a
         <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-sign-out-alt mr-2"></i> Logout
         </a>
@@ -122,20 +133,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="mb-3">
             <label class="block text-gray-700 mb-1">Category</label>
             <select name="category" class="w-full px-2 py-1 border rounded-lg" required>
-              <option value="Food">Food</option>
-              <option value="Drinks">Drinks</option>
-              <option value="Appliances">Appliances</option>
-              <option value="Household Essential">Household Essential</option>
-              <option value="Cooking Essential">Cooking Essential</option>
+              <?php
+                if ($category_result->num_rows > 0) {
+                    while($row = $category_result->fetch_assoc()) {
+                        echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+                    }
+                }
+              ?>
             </select>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Product Image</label>
-            <input type="file" name="image" class="file-input file-input-bordered file-input-primary w-full max-w-xs">
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Expiration Date</label>
-            <input type="date" name="expiration" class="w-full px-2 py-1 border rounded-lg">
           </div>
           <div class="mb-3">
             <label class="block text-gray-700 mb-1">Quantity</label>
@@ -147,7 +152,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
           <div class="mb-3">
             <label class="block text-gray-700 mb-1">Price</label>
-            <input type="number" name="price" step="0.01" class="w-full px-2 py-1 border rounded-lg" required>
+            <input type="number" step="0.01" name="price" class="w-full px-2 py-1 border rounded-lg" required>
+          </div>
+          <div class="mb-3">
+            <label class="block text-gray-700 mb-1">Expiration Date</label>
+            <input type="date" name="expiration" class="w-full px-2 py-1 border rounded-lg" required>
+          </div>
+          <div class="mb-3">
+            <label class="block text-gray-700 mb-1">Product Image</label>
+            <input type="file" name="image" class="w-full px-2 py-1 border rounded-lg">
           </div>
           <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg">Add Product</button>
         </form>
