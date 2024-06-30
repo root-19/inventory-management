@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_report'])) {
             $mail->Port       = 587;
 
             //Recipients
-            $mail->setFrom('wasieacuna@gmail.com', 'hi manager');
+            $mail->setFrom('annevicente006@gmail.com', 'hi manager');
             $mail->addAddress('annevicente006@gmail.com', 'Admin'); // Add a recipient
 
             // Content
@@ -62,10 +62,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_report'])) {
 
     <!-- Sidebar -->
     <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
-        <div class="px-6 py-4">
-            <h2 class="text-xl font-bold">Admin</h2>
-        </div>
-        <nav class="flex-1 px-4 py-2 space-y-2">
+
+            <div class="px-6 py-4">
+                <ul>
+                    <li class="py-2 flex items-center">
+                        <i class="fas fa-user mr-2"></i>
+                        <a href="#" class="text-white hover:text-blue-300">Staff</a>
+                    </li>
+                </ul>
+            </div>
+ 
+
+    <nav class="flex-1 px-4 py-2 space-y-2">
                 <a href="staff.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-user-shield mr-2"></i> Product
                 </a>
@@ -78,9 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_report'])) {
                 <a href="all-sales.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-boxes mr-2"></i> Inventory
         </a>
-                <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                    <i class="fas fa-truck mr-2"></i> Group Supply
-                </a>
+            
                 <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>

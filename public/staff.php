@@ -79,9 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="flex">
-        <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
+     <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
+
             <div class="px-6 py-4">
-                <h2 class="text-xl font-bold">Admin</h2>
+                <ul>
+                    <li class="py-2 flex items-center">
+                        <i class="fas fa-user mr-2"></i>
+                        <a href="#" class="text-white hover:text-blue-300">Staff</a>
+                    </li>
+                </ul>
             </div>
             <nav class="flex-1 px-4 py-2 space-y-2">
                 <a href="staff.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
@@ -96,9 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                 <a href="all-sales.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-boxes mr-2"></i> Inventory
         </a>
-                <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                    <i class="fas fa-truck mr-2"></i> Group Supply
-                </a>
+       
                 <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
@@ -108,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
         <div class="flex-1 ml-64 p-6">
             <h1 class="text-3xl font-bold mb-6">Products</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
                 <?php foreach ($products as $product): ?>
                     <div class="bg-white shadow-md rounded-lg p-4">
                         <!-- Product details -->

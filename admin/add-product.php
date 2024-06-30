@@ -3,6 +3,11 @@ require_once __DIR__ . '/../config/configuration.php';
 require_once __DIR__ . '/../config/validation.php';
 require_once __DIR__ . '/../includes/functions.php';
 
+// Fetch the count of reports
+$sql_count_reports = "SELECT COUNT(*) as report_count FROM product_reports";
+$result_count = $conn->query($sql_count_reports);
+$report_count = $result_count->fetch_assoc()['report_count'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $category = $_POST['category'];
@@ -92,7 +97,7 @@ $category_result = $conn->query($category_query);
   <div class="flex">
     <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
       <div class="px-6 py-4">
-        <h2 class="text-xl font-bold">admin</h2>
+        <!-- <h2 class="text-xl font-bold">admin</h2> -->
       </div>
         <nav class="flex-1 px-4 py-2 space-y-2">
         <a href="admin.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
@@ -101,9 +106,10 @@ $category_result = $conn->query($category_query);
         <a href="add-product.php"  class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-plus-square mr-2"></i> Add Products
         </a>
-        <a href="display-report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-          <i class="fas fa-file-alt mr-2"></i> Report
-        </a>
+         <a href="display-report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                <i class="fas fa-file-alt mr-2"></i> Report 
+                <span class="ml-2 bg-red-600 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full"><?= $report_count ?></span>
+            </a>
          <a href="inventory.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-boxes mr-2"></i> Inventory
         </a>
@@ -115,57 +121,62 @@ $category_result = $conn->query($category_query);
         </a>
         <a href="add-category.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
   <i class="fas fa-tag mr-2"></i> Category
-</a
+  </a>
         <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
           <i class="fas fa-sign-out-alt mr-2"></i> Logout
         </a>
       </nav>
     </div>
   <!-- Main Content -->
-    <div class="flex justify-center items-center w-full">
-      <div class="main w-full max-w-md bg-white p-4 rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-4">Add New Product</h2>
-        <form action="" method="POST" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Product Name</label>
-            <input type="text" name="name" class="w-full px-2 py-1 border rounded-lg" required>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Category</label>
-            <select name="category" class="w-full px-2 py-1 border rounded-lg" required>
-              <?php
-                if ($category_result->num_rows > 0) {
-                    while($row = $category_result->fetch_assoc()) {
-                        echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
-                    }
-                }
-              ?>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Quantity</label>
-            <input type="number" name="quantity" class="w-full px-2 py-1 border rounded-lg" required>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Description</label>
-            <textarea name="description" class="w-full px-2 py-1 border rounded-lg" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Price</label>
-            <input type="number" step="0.01" name="price" class="w-full px-2 py-1 border rounded-lg" required>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Expiration Date</label>
-            <input type="date" name="expiration" class="w-full px-2 py-1 border rounded-lg" required>
-          </div>
-          <div class="mb-3">
-            <label class="block text-gray-700 mb-1">Product Image</label>
-            <input type="file" name="image" class="w-full px-2 py-1 border rounded-lg">
-          </div>
-          <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg">Add Product</button>
-        </form>
-      </div>
+     <div class="flex justify-center items-center w-full h-screen">
+        <div class="main w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-center">Add New Product</h2>
+            <form action="" method="POST" enctype="multipart/form-data" class="grid grid-cols-2 gap-6">
+                <div class="col-span-1">
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Product Name</label>
+                        <input type="text" name="name" placeholder="product name" class="w-full px-2 py-1 border rounded-lg" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Category</label>
+                        <select name="category" class="w-full px-2 py-1 border rounded-lg" aria-placeholder="category" required>
+                          <?php
+                            if ($category_result->num_rows > 0) {
+                                while($row = $category_result->fetch_assoc()) {
+                                    echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+                                }
+                            }
+                          ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Quantity</label>
+                        <input type="number" name="quantity" class="w-full px-2 py-1 border rounded-lg" placeholder="quantity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Description</label>
+                        <textarea name="description" class="w-full px-2 py-1 border rounded-lg" placeholder="description" required></textarea>
+                    </div>
+                </div>
+                <div class="col-span-1">
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Price</label>
+                        <input type="number" step="0.01" name="price" class="w-full px-2 py-1 border rounded-lg" placeholder="price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Expiration Date</label>
+                        <input type="date" name="expiration" class="w-full px-2 py-1 border rounded-lg" placeholder="expiration date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 mb-1">Product Image</label>
+                        <input type="file" name="image" class="w-full px-2 py-1 border rounded-lg" placeholder="product image" required>
+                    </div>
+                </div>
+                <div class="col-span-2">
+                    <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg">Add Product</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </body>
 </html>

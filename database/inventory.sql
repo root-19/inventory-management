@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2024 at 04:19 PM
+-- Generation Time: Jun 30, 2024 at 03:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,11 +44,9 @@ CREATE TABLE `add_product` (
 --
 
 INSERT INTO `add_product` (`id`, `name`, `category`, `image`, `quantity`, `description`, `price`, `expiration`, `original_quantity`) VALUES
-(37, 'liztte', 'Drinks', 'uploads/ss.png', 94, 'gg', 100.00, '2024-06-27 12:15:48', 100),
-(44, 'corn', 'Food', 'uploads/1.png', 100, 'sfsaf', 23.00, '2024-06-29 16:00:00', 100),
 (46, 'wasie', 'vegetable', 'uploads/Screenshot 2024-03-05 234927.png', 100, 'ffssf', 20.00, '2024-06-28 16:00:00', 100),
 (47, 'wasie', 'vegetable', 'uploads/Screenshot 2024-03-05 234927.png', 100, 'ffssf', 20.00, '2024-06-28 16:00:00', 100),
-(48, 'tite', 'vegetable', 'uploads/ss.png', 100, 'fasf', 20.00, '2024-06-28 16:00:00', 100);
+(48, 'wash', 'vegetable', 'uploads/ss.png', 98, 'fasf', 20.00, '2024-06-30 13:27:11', 100);
 
 -- --------------------------------------------------------
 
@@ -88,7 +86,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`) VALUES
-(1, 'vegetable');
+(1, 'vegetable'),
+(2, 'drinks');
 
 -- --------------------------------------------------------
 
@@ -108,7 +107,6 @@ CREATE TABLE `product_reports` (
 --
 
 INSERT INTO `product_reports` (`id`, `product_name`, `message`, `report_date`) VALUES
-(5, 'hello', 'thsi last last test', '2024-06-23 15:28:47'),
 (6, 'hello', 'thsi last last test', '2024-06-23 15:29:55'),
 (9, 'this a test', 'this a test', '2024-06-25 12:46:30'),
 (10, 'this a test', 'test', '2024-06-25 12:50:33'),
@@ -155,7 +153,9 @@ INSERT INTO `sold_products` (`id`, `product_id`, `total_price`, `sale_date`, `qu
 (23, 40, 7500.00, '2024-06-25 17:07:43', 75),
 (24, 37, 200.00, '2024-06-26 13:04:23', 2),
 (25, 37, 200.00, '2024-06-26 13:04:51', 2),
-(26, 37, 200.00, '2024-06-27 12:15:48', 2);
+(26, 37, 200.00, '2024-06-27 12:15:48', 2),
+(27, 48, 20.00, '2024-06-30 07:57:06', 1),
+(28, 48, 20.00, '2024-06-30 07:57:15', 1);
 
 --
 -- Indexes for dumped tables
@@ -211,7 +211,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_reports`
@@ -223,7 +223,7 @@ ALTER TABLE `product_reports`
 -- AUTO_INCREMENT for table `sold_products`
 --
 ALTER TABLE `sold_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

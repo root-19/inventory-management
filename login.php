@@ -43,10 +43,10 @@ function getRedirectUrl($userType) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Registration</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100" style="background-image: url('./im-01.jpg'); background-size: cover; background-position: center";>
 
 <div class="min-h-screen flex items-center justify-center">
     <div class="flex bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
