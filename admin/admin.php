@@ -1,5 +1,7 @@
 <?php
+session_start();
 require_once __DIR__ . '/../config/configuration.php';
+require_once __DIR__ . '/./admin.controller.php';
 
 // Fetch the count of reports
 $sql_count_reports = "SELECT COUNT(*) as report_count FROM product_reports";

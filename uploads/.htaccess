@@ -1,0 +1,11 @@
+# Deny access to all .txt files
+<FilesMatch "\.png$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Deny access to all .php files
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

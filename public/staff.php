@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
 
         $alertMessage = "Product sold successfully!";
     } else {
-        // Handle insufficient quantity error
+        
         $alertMessage = "Insufficient quantity available for sale!";
     }
 }
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                         <!-- Product details -->
                         <form method="post">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                            <img src="../<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-full product-image mb-4">
+                            <img src="../admin/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-full product-image mb-4">
                             <h2 class="text-lg font-bold"><?php echo $product['name']; ?></h2>
                             <p class="text-gray-700 mb-4"><?php echo $product['description']; ?></p>
                             <p class="text-gray-900 font-bold">₱<?php echo $product['price']; ?></p>

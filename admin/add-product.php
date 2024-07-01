@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $imageFileName = $_FILES['image']['name'];
         $imageTempName = $_FILES['image']['tmp_name'];
-        $imageUploadPath = __DIR__ . '/../uploads/' . $imageFileName;
+        $imageUploadPath = __DIR__ . '/uploads/' . $imageFileName;
         move_uploaded_file($imageTempName, $imageUploadPath);
         $image = 'uploads/' . $imageFileName;  // Store relative path
     }

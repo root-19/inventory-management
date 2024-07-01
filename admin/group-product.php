@@ -140,7 +140,7 @@ if (isset($_GET['logout'])) {
                         <?php foreach ($categoryProducts as $product): ?>
                             <tr>
                                 <td class="border border-gray-300 px-4 py-2"><?php echo $product['id']; ?></td>
-                                <td class="border border-gray-300 px-4 py-2"><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-16 h-16 object-cover"></td>
+                                <td class="border border-gray-300 px-4 py-2"><img src="./<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-16 h-16 object-cover"></td>
                                 <td class="border border-gray-300 px-4 py-2"><?php echo $product['name']; ?></td>
                                 <td class="border border-gray-300 px-4 py-2"><?php echo $product['description']; ?></td>
                                 <td class="border border-gray-300 px-4 py-2"><?php echo $product['price']; ?></td>
