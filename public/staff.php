@@ -43,6 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
         $alertMessage = "Insufficient quantity available for sale!";
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -53,8 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
         .content {
             display: none;
@@ -74,13 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
             color: #999;
             margin-top: 0.5rem;
         }
+  
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="flex">
-     <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
-
+        <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
             <div class="px-6 py-4">
                 <ul>
                     <li class="py-2 flex items-center">
@@ -100,9 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                     <i class="fas fa-dollar-sign mr-2"></i> Daily Income
                 </a>
                 <a href="all-sales.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-          <i class="fas fa-boxes mr-2"></i> Inventory
-        </a>
-       
+                    <i class="fas fa-boxes mr-2"></i> Inventory
+                </a>
                 <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
@@ -112,7 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
         <div class="flex-1 ml-64 p-6">
             <h1 class="text-3xl font-bold mb-6">Products</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
                 <?php foreach ($products as $product): ?>
                     <div class="bg-white shadow-md rounded-lg p-4">
                         <!-- Product details -->
@@ -134,17 +135,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            <?php if (!empty($alertMessage)): ?>
-                Swal.fire({
-                    title: 'Alert',
-                    text: "<?php echo $alertMessage; ?>",
-                    icon: '<?php echo ($alertMessage == "Product sold successfully!") ? "success" : "error"; ?>',
-                    confirmButtonText: 'OK'
-                });
-            <?php endif; ?>
+<!-- Chat Icon -->
+<div class="chat-icon position-fixed bottom-0 end-0 p-3 bg-primary text-white rounded-circle" id="chatIcon" style="cursor: pointer; z-index: 1000;">
+    <i class="fas fa-comments"></i>
+</div>
+
+<!-- Chat Window -->
+<div class="chat-window card position-fixed bottom-0 end-0 mb-5 me-3" id="chatWindow" style="width: 300px; display: none; z-index: 1000;">
+    <div class="card-header bg-primary text-white">
+        Chat with Us
+        <button type="button" class="btn-close btn-close-white float-end" aria-label="Close" id="closeChatWindow"></button>
+    </div>
+    <div class="card-body overflow-auto" style="max-height: 200px;" id="chatBody"></div>
+    <div class="card-footer">
+        <form id="chatForm">
+            <div class="input-group">
+                <input type="text" name="message" id="messageInput" class="form-control" placeholder="Type a message..." autocomplete="off">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#chatIcon').click(function() {
+            $('#chatWindow').toggle();
         });
-    </script>
-</body>
-</html>
+
+        $('#closeChatWindow').click(function() {
+            $('#chatWindow').hide();
+        });
+
+        $('#messageInput').keypress(function(e) {
+            if (e.which == 13) { // 13 is the Enter key code
+                e.preventDefault(); // Prevent default form submission
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            var message = $('#messageInput').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'chat.php', // Adjust URL based on your file location
+                data: { message: message },
+                dataType: 'json',
+                success: function(response) {
+                    // Handle response and display product information or chat response
+                    console.log(response); // For debugging
+                    $('#chatBody').append('<p>' + message + '</p>'); // Example display
+                    $('#messageInput').val(''); // Clear input after sending
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+</script>
