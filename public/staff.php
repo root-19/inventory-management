@@ -135,7 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
             </div>
         </div>
     </div>
-<!-- Chat Icon -->
+
+    <!-- Chat Icon -->
 <div class="chat-icon position-fixed bottom-0 end-0 p-3 bg-primary text-white rounded-circle" id="chatIcon" style="cursor: pointer; z-index: 1000;">
     <i class="fas fa-comments"></i>
 </div>
@@ -143,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
 <!-- Chat Window -->
 <div class="chat-window card position-fixed bottom-0 end-0 mb-5 me-3" id="chatWindow" style="width: 300px; display: none; z-index: 1000;">
     <div class="card-header bg-primary text-white">
-        Chat with Us
+        Chat with AI 
         <button type="button" class="btn-close btn-close-white float-end" aria-label="Close" id="closeChatWindow"></button>
     </div>
     <div class="card-body overflow-auto" style="max-height: 200px;" id="chatBody"></div>
@@ -159,8 +160,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+        let isFirstTimeOpen = true;
+
         $('#chatIcon').click(function() {
             $('#chatWindow').toggle();
+
+            if (isFirstTimeOpen) {
+                $('#chatBody').append('<p><strong>AI:</strong> Hello! I am your virtual assistant. I am here to help you with any questions or concerns you may have. How can I assist you today?</p>');
+                isFirstTimeOpen = false;
+            }
         });
 
         $('#closeChatWindow').click(function() {
@@ -179,14 +187,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
 
             $.ajax({
                 type: 'POST',
-                url: 'chat.php', // Adjust URL based on your file location
+                url: 'chat.php', 
                 data: { message: message },
                 dataType: 'json',
                 success: function(response) {
-                    // Handle response and display product information or chat response
-                    console.log(response); // For debugging
-                    $('#chatBody').append('<p>' + message + '</p>'); // Example display
-                    $('#messageInput').val(''); // Clear input after sending
+                    // Display user message
+                    $('#chatBody').append('<p><strong>You:</strong> ' + message + '</p>');
+
+                    // Display AI response
+                    if(response.message) {
+                        $('#chatBody').append('<p><strong>AI:</strong> ' + response.message + '</p>');
+                    }
+
+                    // Display image if available
+                    if(response.image) {
+                        $('#chatBody').append('<img src="' + response.image + '" alt="Product Image" style="width:100%;">');
+                    }
+
+                    $('#messageInput').val(''); 
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -195,3 +213,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
         }
     });
 </script>
+</body>
+</html>

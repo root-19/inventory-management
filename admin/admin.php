@@ -112,28 +112,17 @@ $conn->close();
     <div class="container mx-auto px-4 py-8 ml-64">
         <d class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-lg font-semibold mb-2"><i class="fas fa-list-alt mr-2"></i> Category Counts</h2>
-                <ul class="list-disc list-inside">
-                    <?php
-                    // Display category counts
-                    foreach ($categoryCounts as $category => $count) {
-                        echo "<li>$category: $count</li>";
-                    }
-                    ?>
-                </ul>
+               <h2 class="text-lg font-semibold mb-2"><i class="fas fa-list-alt mr-2"></i> Categories</h2>
+                <p class="text-lg font-bold">Categories <?php echo $category_count; ?></p>
             </div>
+       
 
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-lg font-semibold mb-2"><i class="fas fa-dollar-sign mr-2"></i> Total Sales</h2>
                 <p class="text-lg font-bold">Total Sales Amount: <?php echo $formatted_total_sales; ?></p>
             </div>
         <br>
-           <div class="bg-white rounded-lg shadow p-4">
-                  <h2 class="text-lg font-semibold mb-2"><i class="fas fa-list-alt mr-2"></i> Categories</h2>
-                <p class="text-lg font-bold">Categories <?php echo $category_count; ?></p>
-            </div>
-                <br>
-        
+          
         </div>
     </div>
 </div>
