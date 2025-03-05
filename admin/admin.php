@@ -49,83 +49,83 @@ if ($category_count_result->num_rows > 0) {
 // Close the database connection
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>
     <style>
-        .content {
+        .sidebar {
+            width: 250px;
+            transition: width 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        .sidebar.collapsed span {
             display: none;
         }
-        .active {
-            display: block;
+        .content {
+            transition: margin-left 0.3s;
         }
-        #main {
-            margin-left: 250px;
+        .content.expanded {
+            margin-left: 80px;
         }
-        
     </style>
 </head>
-<body class="bg-white">
-
-<!-- Sidebar -->
-<div class="flex">
-    <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
-        <div class="px-6 py-4">
-            <h2 class="text-xl font-bold">Admin Panel</h2>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar bg-blue-800 text-white h-full fixed flex flex-col py-4 px-3">
+            <button id="toggleSidebar" class="text-white text-lg mb-4 focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="space-y-3">
+                <a href="admin.php" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-600">
+                    <i class="fas fa-user-shield"></i> <span class="ml-3">Admin</span>
+                </a>
+                <a href="add-product.php" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-600">
+                    <i class="fas fa-plus-square"></i> <span class="ml-3">Add Products</span>
+                </a>
+                <a href="display-report.php" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-600">
+                    <i class="fas fa-file-alt"></i> <span class="ml-3">Report</span>
+                    <span class="ml-auto bg-red-600 text-xs px-2 py-0.5 rounded-full"> <?= $report_count ?> </span>
+                </a>
+                <a href="inventory.php" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-600">
+                    <i class="fas fa-boxes"></i> <span class="ml-3">Inventory</span>
+                </a>
+                <a href="logout.php" class="flex items-center px-4 py-3 rounded-lg hover:bg-red-600">
+                    <i class="fas fa-sign-out-alt"></i> <span class="ml-3">Logout</span>
+                </a>
+            </nav>
         </div>
-        <nav class="flex-1 px-4 py-2 space-y-2">
-            <a href="admin.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-user-shield mr-2"></i> Admin
-            </a>
-            <a href="add-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-plus-square mr-2"></i> Add Products
-            </a>
-              <a href="display-report.php" data-target="report" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-file-alt mr-2"></i> Report 
-                <span class="ml-2 bg-red-600 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full"><?= $report_count ?></span>
-            </a>
-            <a href="inventory.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-boxes mr-2"></i> Inventory
-            </a>
-            <a href="daily-income.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-dollar-sign mr-2"></i> Daily Income
-            </a>
-            <a href="group-product.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-truck mr-2"></i> Group Supply
-            </a>
-            <a href="add-category.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-tag mr-2"></i> Category
-            </a>
-            <a href="logout.php" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
-                <i class="fas fa-sign-out-alt mr-2"></i> Logout
-            </a>
-        </nav>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8 ml-64">
-        <d class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
-               <h2 class="text-lg font-semibold mb-2"><i class="fas fa-list-alt mr-2"></i> Categories</h2>
-                <p class="text-lg font-bold">Categories <?php echo $category_count; ?></p>
+        
+        <!-- Main Content -->
+        <div id="mainContent" class="content flex-1 ml-64 p-6">
+            <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-700"><i class="fas fa-list-alt mr-2"></i> Categories</h2>
+                    <p class="text-lg font-bold mt-2">Total: <?= $category_count ?></p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-700"><i class="fas fa-dollar-sign mr-2"></i> Total Sales</h2>
+                    <p class="text-lg font-bold mt-2">Amount: <?= $formatted_total_sales ?></p>
+                </div>
             </div>
-       
-
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-lg font-semibold mb-2"><i class="fas fa-dollar-sign mr-2"></i> Total Sales</h2>
-                <p class="text-lg font-bold">Total Sales Amount: <?php echo $formatted_total_sales; ?></p>
-            </div>
-        <br>
-          
         </div>
     </div>
-</div>
-
+    
+    <script>
+        document.getElementById('toggleSidebar').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('mainContent').classList.toggle('expanded');
+        });
+    </script>
 </body>
 </html>
