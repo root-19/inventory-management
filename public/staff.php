@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../config/configuration.php';
 
 // Fetch products from the database
-$sql = "SELECT id, name, image, description, price, quantity FROM add_product";
+$sql = "SELECT id, name, image, barcode, description, price, quantity FROM add_product";
+
 $result = $conn->query($sql);
 
 $products = array();
@@ -80,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
   
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg">
     <!-- Sidebar -->
     <div class="flex">
         <div class="w-64 h-screen bg-blue-800 text-white flex flex-col fixed">
@@ -120,13 +121,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                         <form method="post">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                             <img src="../admin/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-full product-image mb-4">
+                           <img src="../admin/<?php echo $product['barcode']; ?>" alt="Barcode for <?php echo $product['name']; ?>" class="w-full h-auto mt-2">
+
                             <h2 class="text-lg font-bold"><?php echo $product['name']; ?></h2>
                             <p class="text-gray-700 mb-4"><?php echo $product['description']; ?></p>
                             <p class="text-gray-900 font-bold">₱<?php echo $product['price']; ?></p>
                             <p class="text-gray-700">Quantity: <?php echo $product['quantity']; ?></p>
                             <div class="flex items-center">
-                                <input type="number" name="quantity_sold" min="1" max="<?php echo $product['quantity']; ?>" required class="w-16 border-black rounded-lg py-1 px-2 mr-2">
-                                <span class="quantity-info">Max: <?php echo $product['quantity']; ?></span>
+                            <input 
+        type="number" 
+        name="quantity_sold" 
+        class="w-20 bg-white border border-gray-300 rounded-lg py-1 px-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"  
+        min="1" 
+        max="<?php echo $product['quantity']; ?>" 
+        required
+        placeholder="1"
+    >
+    <span class="text-sm text-gray-500">Max: <?php echo $product['quantity']; ?></span>
                             </div>
                             <button type="submit" name="sell_product" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-600">Sell</button>
                         </form>

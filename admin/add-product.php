@@ -181,30 +181,22 @@ function generateBarcode() {
         return;
     }
 
-    let numericBarcode = generateShortNumericCode(name, price, expiration, quantity);
+    // ✅ Store product details in a structured text format
+    let barcodeData = `${name}|${price}|${expiration}|${quantity}|${description}`;
 
-    // ✅ Store product details in a database or local object
-    productDatabase[numericBarcode] = { name, price, expiration, quantity, description };
+    // ✅ Store product details with barcode as key
+    productDatabase[barcodeData] = { name, price, expiration, quantity, description };
 
-    // Generate barcode
-    JsBarcode("#barcodeSvg", numericBarcode, {
+    // Generate Code 128 barcode
+    JsBarcode("#barcodeSvg", barcodeData, {
         format: "CODE128",
-        displayValue: false,
+        displayValue: true, // Show text under barcode
         width: 2,
         height: 50,
         margin: 10
     });
 
     setTimeout(saveBarcodeAsImage, 500);
-}
-
-function generateShortNumericCode(name, price, expiration, quantity) {
-    let nameCode = name.length.toString().padStart(2, "0");
-    let priceCode = Math.floor(parseFloat(price) * 10).toString().slice(0, 4);
-    let expCode = expiration.replace(/-/g, "").slice(-4);
-    let quantityCode = quantity.padStart(2, "0");
-
-    return `${nameCode}${priceCode}${expCode}${quantityCode}`;
 }
 
 function saveBarcodeAsImage(callback) {
@@ -236,18 +228,21 @@ function saveBarcodeAsImage(callback) {
 function scanBarcode() {
     let scannedCode = document.querySelector("#scannedBarcode").value.trim();
 
+    // Check if barcode exists in our database
     if (productDatabase[scannedCode]) {
         let product = productDatabase[scannedCode];
 
-        document.getElementById("displayName").textContent = product.name;
-        document.getElementById("displayPrice").textContent = `₱${product.price}`;
-        document.getElementById("displayExpiration").textContent = product.expiration;
-        document.getElementById("displayQuantity").textContent = product.quantity;
-        document.getElementById("displayDescription").textContent = product.description;
+        // ✅ Display the product details
+        document.getElementById("displayName").textContent = `Product Name: ${product.name}`;
+        document.getElementById("displayPrice").textContent = `Price: ₱${product.price}`;
+        document.getElementById("displayExpiration").textContent = `Expiration: ${product.expiration}`;
+        document.getElementById("displayQuantity").textContent = `Quantity: ${product.quantity}`;
+        document.getElementById("displayDescription").textContent = `Description: ${product.description}`;
     } else {
-        alert("Product not found!");
+        alert("❌ Product not found! Please ensure the barcode is correct.");
     }
 }
+
 
 </script>
 
