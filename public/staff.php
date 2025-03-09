@@ -119,7 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sell_product'])) {
                     <div class="bg-white shadow-md rounded-lg p-4">
                         <!-- Product details -->
                         <form method="post">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <?php if ($product['quantity'] <= 10): ?>
+            <span class="bg-red-500 text-white text-2xl font-bold px-2 py-1 rounded-lg inline-block mt-2">
+                Low Stock
+            </span>
+        <?php endif; ?>
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                             <img src="../admin/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="w-full product-image mb-4">
                            <img src="../admin/<?php echo $product['barcode']; ?>" alt="Barcode for <?php echo $product['name']; ?>" class="w-full h-auto mt-2">
 

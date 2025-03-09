@@ -31,17 +31,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $barcode = ''; // Initialize barcode variable
 
     // Save barcode image
-    if (!empty($_POST['barcodeImage'])) {
-        $barcodeFileName = "barcode_" . uniqid() . ".png";
-        $barcodeFilePath = "uploads/" . $barcodeFileName; // Remove leading '/'
+    // if (!empty($_POST['barcodeImage'])) {
+    //     $barcodeFileName = "barcode_" . uniqid() . ".png";
+    //     $barcodeFilePath = "uploads/" . $barcodeFileName; // Remove leading '/'
     
-        $barcodeImage = str_replace(['data:image/png;base64,', ' '], ['', '+'], $_POST['barcodeImage']);
-        $barcodeData = base64_decode($barcodeImage);
+    //     $barcodeImage = str_replace(['data:image/png;base64,', ' '], ['', '+'], $_POST['barcodeImage']);
+    //     $barcodeData = base64_decode($barcodeImage);
     
-        if (file_put_contents(__DIR__ . "/" . $barcodeFilePath, $barcodeData)) {
-            $barcode = $barcodeFilePath; // Assign correct path to $barcode
-        }
-    }
+    //     if (file_put_contents(__DIR__ . "/" . $barcodeFilePath, $barcodeData)) {
+    //         $barcode = $barcodeFilePath; // Assign correct path to $barcode
+    //     }
+    // }
+
+    if (!empty($_POST['qrCodeImage'])) {
+      $qrFileName = "qr_" . uniqid() . ".png";
+      $qrFilePath = "uploads/" . $qrFileName;
+      
+      $qrImage = base64_decode($_POST['qrCodeImage']);
+      
+      if (file_put_contents(__DIR__ . "/" . $qrFilePath, $qrImage)) {
+          $barcode = $qrFilePath; // Assign correct path to $barcode
+      }
+  }
     
     // Insert product into database using prepared statements
     $stmt = $conn->prepare("INSERT INTO add_product (name, category, image, expiration, quantity, description, price, barcode) 
@@ -140,11 +151,9 @@ $conn->close();
             <label class="block text-gray-700 font-medium">Description</label>
             <textarea name="description" class="textarea textarea-bordered w-full" required></textarea>
           </div>
-          <input type="text" name="barcode" id="barcode" class="input input-bordered w-full" required readonly>
-<svg id="barcodeSvg" class="mt-4"></svg>
-<input type="hidden" name="barcodeImage" id="barcodeImage">
+          <div id="qrcode" class="mt-4"></div> <!-- Added this to display QR -->
+<input type="hidden" name="qrCodeImage" id="qrCodeImage">
 
-   
           <div class="col-span-2">
             <button type="submit" class="w-full btn btn-primary">Add Product</button>
           </div>
@@ -152,24 +161,22 @@ $conn->close();
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
-  <script>
-let productDatabase = {}; // Temporary storage for testing
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+  <script>
 document.querySelector("form").addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
-    generateBarcode(); // Generate barcode first
-
-    // Save barcode as an image, then submit the form
-    saveBarcodeAsImage(() => {
+    generateQRCode(() => {
         setTimeout(() => {
-            document.querySelector("form").submit();
-        }, 1000); // Delay to ensure image is processed
+            saveQRCodeAsImage(() => {
+                document.querySelector("form").submit();
+            });
+        }, 500); // Ensure QR is rendered before conversion
     });
 });
 
-function generateBarcode() {
+function generateQRCode(callback) {
     let name = document.querySelector("input[name='name']").value.trim();
     let price = document.querySelector("input[name='price']").value.trim();
     let expiration = document.querySelector("input[name='expiration']").value.trim();
@@ -181,68 +188,26 @@ function generateBarcode() {
         return;
     }
 
-    // ✅ Store product details in a structured text format
-    let barcodeData = `${name}|${price}|${expiration}|${quantity}|${description}`;
-
-    // ✅ Store product details with barcode as key
-    productDatabase[barcodeData] = { name, price, expiration, quantity, description };
-
-    // Generate Code 128 barcode
-    JsBarcode("#barcodeSvg", barcodeData, {
-        format: "CODE128",
-        displayValue: true, // Show text under barcode
-        width: 2,
-        height: 50,
-        margin: 10
+    let qrData = `${name}|${price}|${expiration}|${quantity}|${description}`;
+    
+    document.querySelector("#qrcode").innerHTML = ""; // Clear previous QR code
+    new QRCode(document.getElementById("qrcode"), {
+        text: qrData,
+        width: 128,
+        height: 128
     });
 
-    setTimeout(saveBarcodeAsImage, 500);
+    setTimeout(callback, 300); // Ensure QR renders before callback
 }
 
-function saveBarcodeAsImage(callback) {
-    let svg = document.getElementById("barcodeSvg");
-    let serializer = new XMLSerializer();
-    let svgString = serializer.serializeToString(svg);
-
-    let canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
-    let img = new Image();
-
-    img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        let barcodeImage = canvas.toDataURL("image/png");
-        document.getElementById("barcodeImage").value = barcodeImage;
-
-        if (typeof callback === "function") {
-            callback();
-        }
-    };
-
-    img.src = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svgString)));
-}
-
-// ✅ Scan barcode and display product details
-function scanBarcode() {
-    let scannedCode = document.querySelector("#scannedBarcode").value.trim();
-
-    // Check if barcode exists in our database
-    if (productDatabase[scannedCode]) {
-        let product = productDatabase[scannedCode];
-
-        // ✅ Display the product details
-        document.getElementById("displayName").textContent = `Product Name: ${product.name}`;
-        document.getElementById("displayPrice").textContent = `Price: ₱${product.price}`;
-        document.getElementById("displayExpiration").textContent = `Expiration: ${product.expiration}`;
-        document.getElementById("displayQuantity").textContent = `Quantity: ${product.quantity}`;
-        document.getElementById("displayDescription").textContent = `Description: ${product.description}`;
-    } else {
-        alert("❌ Product not found! Please ensure the barcode is correct.");
+function saveQRCodeAsImage(callback) {
+    let qrCanvas = document.querySelector("#qrcode canvas");
+    if (qrCanvas) {
+        let qrImage = qrCanvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
+        document.querySelector("#qrCodeImage").value = qrImage;
     }
+    if (callback) callback();
 }
-
 
 </script>
 
